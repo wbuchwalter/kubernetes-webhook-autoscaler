@@ -88,6 +88,7 @@ class WebHookScaler(Scaler):
                 "desired_agent_count": pool.actual_capacity,
                 "target_nodes": []
             }
+            desired_pool_configurations.append(conf)
 
             # maximum nomber of nodes we can drain without hiting our spare
             # capacity
