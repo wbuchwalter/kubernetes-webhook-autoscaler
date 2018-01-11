@@ -136,4 +136,5 @@ class WebHookScaler(Scaler):
                     pass
                 else:
                     raise Exception("Unhandled state: {}".format(state))
-        self.scale_in(desired_pool_configurations)
+        if should_scale_in:
+            self.scale_in(desired_pool_configurations)
