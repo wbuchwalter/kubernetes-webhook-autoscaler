@@ -99,14 +99,14 @@ class Cluster(object):
         all_nodes = list(filter(lambda x: utils.is_agent(x, self.pool_name_regex), map(self.create_kube_node, pykube_nodes)))
 
         scaler = WebHookScaler(
-            scale_out_webhook=scale_out_webhook,
-            scale_in_webhook=scale_in_webhook,
-            pool_name_regex=pool_name_regex,
+            scale_out_webhook=self.scale_out_webhook,
+            scale_in_webhook=self.scale_in_webhook,
+            pool_name_regex=self.pool_name_regex,
             nodes=all_nodes,
             ignore_pools=self.ignore_pools,
             over_provision=self.over_provision,
             spare_count=self.spare_agents,
-            drain=drain,
+            drain=self.drain,
             idle_threshold=self.idle_threshold,
             notifier=self.notifier)
 
