@@ -52,7 +52,7 @@ class WebHookScaler(Scaler):
         return agent_pools, scalable_pools
 
     def scale_in(self, desired_pool_configurations):
-        resp = request.post(self.scale_in_webhook, json=desired_pool_configurations)
+        resp = requests.post(self.scale_in_webhook, json=desired_pool_configurations)
 
     def scale_out(self, new_pool_sizes):
         req = []
@@ -62,7 +62,7 @@ class WebHookScaler(Scaler):
                 "current_agent_count": pool.actual_capacity,
                 "desired_agent_count": new_pool_sizes[pool.name]
             })
-        resp = request.post(self.scale_out_webhook, json=req)
+        resp = requests.post(self.scale_out_webhook, json=req)
 
 
     def maintain(self, pods_to_schedule, running_or_pending_assigned_pods):
@@ -113,20 +113,20 @@ class WebHookScaler(Scaler):
                                     notifier)
                         max_nodes_to_drain -= 1
                     else:
-                        conf.desired_agent_count -= 1
-                        conf.target_nodes.append(node.name)
+                        conf["desired_agent_count"] -= 1
+                        conf["target_nodes"].append(node.name)
                 elif state == ClusterNodeState.IDLE_SCHEDULABLE:
                     if self.drain:
                         node.cordon()
                     else:
-                        conf.desired_agent_count -= 1
-                        conf.target_nodes.append(node.name)
+                        conf["desired_agent_count"] -= 1
+                        conf["target_nodes"].append(node.name)
                 elif state == ClusterNodeState.BUSY_UNSCHEDULABLE:
                     if self.drain:
                         node.uncordon()
                 elif state == ClusterNodeState.IDLE_UNSCHEDULABLE:
-                    conf.desired_agent_count -= 1
-                    conf.target_nodes.append(node.name)
+                    conf["desired_agent_count"] -= 1
+                    conf["target_nodes"].append(node.name)
                 elif state == ClusterNodeState.UNDER_UTILIZED_UNDRAINABLE:
                     pass
                 else:
