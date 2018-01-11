@@ -9,6 +9,9 @@ from copy import deepcopy
 import autoscaler.utils as utils
 from autoscaler.agent_pool import AgentPool
 from autoscaler.scaler import Scaler, ClusterNodeState
+
+logger = logging.getLogger(__name__)
+
 class WebHookScaler(Scaler):
 
     def __init__(self, scale_out_webhook, scale_in_webhook, drain, pool_name_regex, nodes,
