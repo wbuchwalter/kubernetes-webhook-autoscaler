@@ -58,7 +58,7 @@ class Cluster(object):
             # for using locally
             logger.debug('Using kubeconfig %s', self.kubeconfig)
             config = pykube.KubeConfig.from_file(self.kubeconfig)
-            config.set_current_context(self.kubecontext)
+            # config.set_current_context(self.kubecontext)
             self.api = pykube.HTTPClient(config)
         else:
             # for using on kube
