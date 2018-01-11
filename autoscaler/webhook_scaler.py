@@ -17,14 +17,14 @@ class WebHookScaler(Scaler):
 
         for pool_name in ignore_pools.split(','):
             self.ignored_pool_names[pool_name] = True
-        self.agent_pools, self.scalable_pools = self.get_agent_pools(nodes, pool_name_regex)
+        self.agent_pools, self.scalable_pools = self.get_agent_pools(nodes)
 
     def get_agent_pools(self, nodes):
         # TODO: add param for regex for pool name
         pools = {}
         for node in nodes:
             # Will need to be modified to pass the regex
-            pool_name = utils.get_pool_name(node)
+            pool_name = utils.get_pool_name(node, self.pool_name_regex)
             pools[pool_name]['nodes'].append(node)
 
         agent_pools = []
