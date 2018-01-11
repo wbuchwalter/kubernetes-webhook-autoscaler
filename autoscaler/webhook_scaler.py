@@ -1,5 +1,6 @@
 import requests
 from autoscaler.scaler import Scaler, ClusterNodeState
+from autoscaler.agent_pool import AgentPool
 import autoscaler.utils as utils
 
 class WebHookScaler(Scaler):
@@ -25,7 +26,9 @@ class WebHookScaler(Scaler):
         for node in nodes:
             # Will need to be modified to pass the regex
             pool_name = utils.get_pool_name(node, self.pool_name_regex)
-            pools[pool_name]['nodes'].append(node)
+            pool = pools.setdefault(pool_name, {'size': 0, 'nodes': []})
+            pool['nodes'].append(node)
+            pool['size'] += 1
 
         agent_pools = []
         scalable_pools = []
