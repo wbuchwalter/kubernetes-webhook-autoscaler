@@ -53,15 +53,15 @@ def parse_bool_label(value):
 
 def is_agent(node, pool_name_regex):
     # if a node name matches the pool regex, then it is an agent
-    result = re.search(pool_name_regex, node)
+    result = re.search(pool_name_regex, node.name)
     if result:
         return True
     return False
 
 def get_pool_name(node, pool_name_regex):
-    result = re.search(pool_name_regex, node)
+    result = re.search(pool_name_regex, node.name)
     if result:
         return result.group(0)
 
-    raise ValueError("Couldn't infer pool name for node {}".format(node))
+    raise ValueError("Couldn't infer pool name for node {}".format(node.name))
         
