@@ -2,12 +2,6 @@ import time
 import datetime
 import logging
 
-from azure.cli.core.commands.client_factory import get_mgmt_service_client
-from azure.mgmt.resource.resources import ResourceManagementClient
-from azure.mgmt.compute import ComputeManagementClient
-from azure.mgmt.storage import StorageManagementClient
-from azure.storage.blob import BlockBlobService
-
 import autoscaler.utils as utils
 from autoscaler.agent_pool import AgentPool
 from autoscaler.kube import KubeResource

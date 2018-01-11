@@ -1,7 +1,6 @@
 import json
 import re
 import urllib.request
-from azure.cli.core.util import get_file_json
 
 SI_suffix = {
     'y': 1e-24,  # yocto
