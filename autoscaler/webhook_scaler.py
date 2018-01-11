@@ -1,6 +1,6 @@
 import requests
 from autoscaler.scaler import Scaler, ClusterNodeState
-
+import autoscaler.utils as utils
 
 class WebHookScaler(Scaler):
 
