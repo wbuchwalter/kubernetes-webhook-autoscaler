@@ -10,7 +10,6 @@ def create_scaler(nodes):
         resource_group='my-rg',
         nodes=nodes,            
         deployments=None,
-        dry_run=False,
         over_provision=0,
         spare_count=1,
         arm_parameters=parameters,

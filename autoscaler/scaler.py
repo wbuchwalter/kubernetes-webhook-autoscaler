@@ -35,12 +35,10 @@ class Scaler(object):
     # under utilized and drainable
     UTIL_THRESHOLD = 0.3
 
-    def __init__(self, resource_group, nodes, over_provision, spare_count, idle_threshold, dry_run, deployments, notifier):
-        self.resource_group_name = resource_group
+    def __init__(self, nodes, over_provision, spare_count, idle_threshold, deployments, notifier):
         self.over_provision = over_provision
         self.spare_count = spare_count
         self.idle_threshold = idle_threshold
-        self.dry_run = dry_run
         self.deployments = deployments
         self.notifier = notifier
 
@@ -55,7 +53,7 @@ class Scaler(object):
     def get_agent_pools(self, nodes):
         raise NotImplementedError()
 
-    def scale_pools(self, pool_sizes):
+    def scale_out(self, pool_sizes):
         raise NotImplementedError()
 
     def get_node_state(self, node, node_pods, pods_to_schedule):
@@ -179,7 +177,7 @@ class Scaler(object):
         if num_unaccounted:
             logger.warn('Failed to scale sufficiently.')
             self.notifier.notify_failed_to_scale(selectors_hash, pods)
-        self.scale_pools(new_pool_sizes)
+        self.scale_out(new_pool_sizes)
         if self.notifier:
             self.notifier.notify_scale(new_pool_sizes, pods, current_pool_sizes)
         

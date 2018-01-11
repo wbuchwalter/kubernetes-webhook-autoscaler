@@ -95,22 +95,13 @@ $ python main.py --resource-group k8s --service-principal-app-id 'XXXXXXXXX' --s
 ```
 $ python main.py [options]
 ```
-- --resource-group: Name of the resource group containing the cluster
 - --kubeconfig: Path to kubeconfig YAML file. Leave blank if running in Kubernetes to use [service account](http://kubernetes.io/docs/user-guide/service-accounts/).
-- --service-principal-app-id: Azure service principal id. Can also be specified in environment variable `AZURE_SP_APP_ID`
-- --service-principal-secret: Azure service principal secret. Can also be specified in environment variable `AZURE_SP_SECRET`
-- --service-principal-tenant-id: Azure service princiap tenant id. Can also be specified in environment variable `AZURE_SP_TENANT_ID`
-- --kubeconfig-private-key: The key passed to the `kubeConfigPrivateKey` parameter in your `azuredeploy.parameters.json` generated with `acs-engine`
-- --client-private-key: The key passed to the `clientPrivateKey` parameter in your `azuredeploy.parameters.json` generated with `acs-engine`
-- --ca-private-key: The key passed to the `caPrivateKey` parameter in your `azuredeploy.parameters.json` generated with `acs-engine`
 - --sleep: Time (in seconds) to sleep between scaling loops (to be careful not to run into AWS API limits)
 - --slack-hook: Optional [Slack incoming webhook](https://api.slack.com/incoming-webhooks) for scaling notifications
-- --dry-run: Flag for testing so resources aren't actually modified. Actions will instead be logged only.
 - -v: Sets the verbosity. Specify multiple times for more log output, e.g. `-vvv`
 - --debug: Do not catch errors. Explicitly crash instead.
 - --ignore-pools: Names of the pools that the autoscaler should ignore, separated by a comma.
 - --spare-agents: Number of agent per pool that should always stay up (default is 1)
-- --acs-deployment: The name of the deployment used to deploy the kubernetes cluster initially
 - --idle-threshold: Maximum duration (in seconds) an agent can stay idle before being deleted
 - --over-provision: Number of extra agents to create when scaling up, default to 0.
 
