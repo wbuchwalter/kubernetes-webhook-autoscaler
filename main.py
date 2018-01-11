@@ -21,6 +21,7 @@ DEBUG_LOGGING_MAP = {
 @click.option("--kubeconfig", default=None,
               help='Full path to kubeconfig file. If not provided, '
                    'we assume that we\'re running on kubernetes.')
+@click.option("--kubecontext", default="default", help="context to use from the kubeconfig file, default to 'default'.")
 @click.option("--scale-out-webhook", help="URI to be called when a scaling out need is detected by the autoscaler")
 @click.option("--scale-in-webhook", help="URI to be called when a scaling in need is detected by the autoscaler")
 @click.option("--pool-name-regex", help="Regex used to identify agents in the pool(s), default to `agent`. The regex should not match masters.", default="agent")
@@ -42,7 +43,7 @@ DEBUG_LOGGING_MAP = {
               count=True, default=2)
 #Debug mode will explicitly surface erros
 @click.option("--debug", is_flag=True) 
-def main(sleep, kubeconfig, scale_out_webhook, scale_in_webhook, spare_agents, pool_name_regex, idle_threshold,
+def main(sleep, kubeconfig, kubecontext, scale_out_webhook, scale_in_webhook, spare_agents, pool_name_regex, idle_threshold,
          drain, no_scale, over_provision, no_maintenance, ignore_pools, slack_hook,
          verbose, debug):
     logger_handler = logging.StreamHandler(sys.stderr)
@@ -55,6 +56,7 @@ def main(sleep, kubeconfig, scale_out_webhook, scale_in_webhook, spare_agents, p
         notifier = Notifier(slack_hook)
 
     cluster = Cluster(kubeconfig=kubeconfig,
+                      kubecontext=kubecontext,
                       scale_out_webhook=scale_out_webhook,
                       scale_in_webhook=scale_in_webhook,
                       pool_name_regex=pool_name_regex,

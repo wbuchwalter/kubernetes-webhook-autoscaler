@@ -25,7 +25,7 @@ pykube.http.requests.packages.urllib3.connection.match_hostname = backports.ssl_
 logger = logging.getLogger(__name__)
 
 class Cluster(object):
-    def __init__(self, kubeconfig, idle_threshold, drain,
+    def __init__(self, kubeconfig, kubecontext, idle_threshold, drain,
                  scale_out_webhook, scale_in_webhook, pool_name_regex,
                  spare_agents, notifier, ignore_pools,
                  scale_up=True, maintainance=True,
@@ -33,6 +33,7 @@ class Cluster(object):
 
         # config
         self.kubeconfig = kubeconfig
+        self.kubecontext = kubecontext
         self.scale_out_webhook = scale_out_webhook
         self.scale_in_webhook = scale_in_webhook
         self.pool_name_regex = pool_name_regex
@@ -56,8 +57,9 @@ class Cluster(object):
         if self.kubeconfig:
             # for using locally
             logger.debug('Using kubeconfig %s', self.kubeconfig)
-            self.api = pykube.HTTPClient(
-                pykube.KubeConfig.from_file(self.kubeconfig))
+            config = pykube.KubeConfig.from_file(self.kubeconfig)
+            config.set_current_context(self.kubecontext)
+            self.api = pykube.HTTPClient(config)
         else:
             # for using on kube
             logger.debug('Using kube service account')
