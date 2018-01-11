@@ -2,8 +2,7 @@
 
 ### Running locally
 ```
-$ docker build -t autoscaler .
-$ ./devenvh.sh
+$ make build-run
 #in the container
 $ python main.py [arguments]
 ```
