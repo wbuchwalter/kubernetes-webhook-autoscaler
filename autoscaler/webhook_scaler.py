@@ -52,6 +52,7 @@ class WebHookScaler(Scaler):
         return agent_pools, scalable_pools
 
     def scale_in(self, desired_pool_configurations):
+        print("scale in with req: {}".format(desired_pool_configurations))
         resp = requests.post(self.scale_in_webhook, json=desired_pool_configurations)
 
     def scale_out(self, new_pool_sizes):
@@ -62,6 +63,7 @@ class WebHookScaler(Scaler):
                 "current_agent_count": pool.actual_capacity,
                 "desired_agent_count": new_pool_sizes[pool.name]
             })
+        print("scale out with req: {}".format(req))
         resp = requests.post(self.scale_out_webhook, json=req)
 
 
