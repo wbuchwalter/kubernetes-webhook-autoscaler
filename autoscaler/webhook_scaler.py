@@ -80,7 +80,7 @@ class WebHookScaler(Scaler):
             pods_by_node.setdefault(p.node_name, []).append(p)
 
         desired_pool_configurations = []
-
+        should_scale_in = False
         for pool in self.scalable_pools:
             conf = {
                 "name": pool.name,
@@ -117,18 +117,21 @@ class WebHookScaler(Scaler):
                     else:
                         conf["desired_agent_count"] -= 1
                         conf["target_nodes"].append(node.name)
+                        should_scale_in = True
                 elif state == ClusterNodeState.IDLE_SCHEDULABLE:
                     if self.drain:
                         node.cordon()
                     else:
                         conf["desired_agent_count"] -= 1
                         conf["target_nodes"].append(node.name)
+                        should_scale_in = True
                 elif state == ClusterNodeState.BUSY_UNSCHEDULABLE:
                     if self.drain:
                         node.uncordon()
                 elif state == ClusterNodeState.IDLE_UNSCHEDULABLE:
                     conf["desired_agent_count"] -= 1
                     conf["target_nodes"].append(node.name)
+                    should_scale_in = True
                 elif state == ClusterNodeState.UNDER_UTILIZED_UNDRAINABLE:
                     pass
                 else:
