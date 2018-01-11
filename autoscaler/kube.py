@@ -104,7 +104,7 @@ class KubeNode(object):
         self.used_capacity = KubeResource()
         self.unschedulable = node.obj['spec'].get('unschedulable', False)
         self.creation_time = dateutil_parse(metadata['creationTimestamp'])
-        self.instance_index = utils.get_instance_index(node)
+        # self.instance_index = utils.get_instance_index(node)
 
     def _get_instance_data(self):
         """
