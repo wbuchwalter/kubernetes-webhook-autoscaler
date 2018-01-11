@@ -29,11 +29,10 @@ class Scaler(object):
     # under utilized and drainable
     UTIL_THRESHOLD = 0.3
 
-    def __init__(self, nodes, over_provision, spare_count, idle_threshold, deployments, notifier):
+    def __init__(self, nodes, over_provision, spare_count, idle_threshold, notifier):
         self.over_provision = over_provision
         self.spare_count = spare_count
         self.idle_threshold = idle_threshold
-        self.deployments = deployments
         self.notifier = notifier
 
         # ACS support up to 100 agents today
