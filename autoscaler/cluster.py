@@ -80,8 +80,6 @@ class Cluster(object):
         else:
             try:
                 return self.loop_logic()
-            except CloudError as e:
-                logger.error(e)
             except:
                 logger.warn("Unexpected error: {}".format(sys.exc_info()[0]))
                 return False
