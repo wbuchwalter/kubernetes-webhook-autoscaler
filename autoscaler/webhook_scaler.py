@@ -1,9 +1,10 @@
 import requests
+from autoscaler.scaler import Scaler, ClusterNodeState
 
 
 class WebHookScaler(Scaler):
 
-    def __init__(self, scale_out_webhook, scale_in_webhook, nodes,
+    def __init__(self, scale_out_webhook, scale_in_webhook, pool_name_regex, nodes,
               over_provision, spare_count, idle_threshold, 
               ignore_pools, notifier):
         Scaler.__init__(self, nodes, over_provision,
@@ -11,10 +12,11 @@ class WebHookScaler(Scaler):
         
         self.scale_out_webhook = scale_out_webhook
         self.scale_in_webhook = scale_in_webhook
+        self.pool_name_regex = pool_name_regex
 
         for pool_name in ignore_pools.split(','):
             self.ignored_pool_names[pool_name] = True
-        self.agent_pools, self.scalable_pools = self.get_agent_pools(nodes)
+        self.agent_pools, self.scalable_pools = self.get_agent_pools(nodes, pool_name_regex)
 
     def get_agent_pools(self, nodes):
         # TODO: add param for regex for pool name

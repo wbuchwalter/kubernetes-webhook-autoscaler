@@ -26,15 +26,16 @@ logger = logging.getLogger(__name__)
 
 class Cluster(object):
     def __init__(self, kubeconfig, idle_threshold, drain,
-                 scale_out_webhook, scale_in_webhook
+                 scale_out_webhook, scale_in_webhook, pool_name_regex,
                  spare_agents, notifier, ignore_pools,
                  scale_up=True, maintainance=True,
-                 over_provision=5:
+                 over_provision=5):
 
         # config
         self.kubeconfig = kubeconfig
         self.scale_out_webhook = scale_out_webhook
         self.scale_in_webhook = scale_in_webhook
+        self.pool_name_regex = pool_name_regex
         self._drained = {}
         self.agent_pools = {}
         self.pools_instance_type = {}
@@ -95,11 +96,12 @@ class Cluster(object):
                 'Failed to list nodes. Please check kube configuration. Terminating scale loop.')
             return False
 
-        all_nodes = list(filter(utils.is_agent, map(self.create_kube_node, pykube_nodes)))
+        all_nodes = list(filter(lambda x: utils.is_agent(x, self.pool_name_regex), map(self.create_kube_node, pykube_nodes)))
 
         scaler = WebHookScaler(
             scale_out_webhook=scale_out_webhook,
             scale_in_webhook=scale_in_webhook,
+            pool_name_regex=pool_name_regex,
             nodes=all_nodes,
             ignore_pools=self.ignore_pools,
             over_provision=self.over_provision,

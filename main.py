@@ -21,9 +21,9 @@ DEBUG_LOGGING_MAP = {
 @click.option("--kubeconfig", default=None,
               help='Full path to kubeconfig file. If not provided, '
                    'we assume that we\'re running on kubernetes.')
-@click.option("--scale-out-webhook", "URI to be called when a scaling out need is detected by the autoscaler")
-@click.option("--scale-in-webhook", "URI to be called when a scaling in need is detected by the autoscaler")
-@click.option("--pool-name-regex", "Regex used to identify agents in the pool(s), default to `agent`. The regex should not match masters.", default="agent")
+@click.option("--scale-out-webhook", help="URI to be called when a scaling out need is detected by the autoscaler")
+@click.option("--scale-in-webhook", help="URI to be called when a scaling in need is detected by the autoscaler")
+@click.option("--pool-name-regex", help="Regex used to identify agents in the pool(s), default to `agent`. The regex should not match masters.", default="agent")
 #How many agents should we keep even if the cluster is not utilized? The autoscaler will currenty break if --spare-agents == 0
 @click.option("--spare-agents", default=1, help='number of agent per pool that should always stay up') 
 @click.option("--idle-threshold", default=1800, help='time in seconds an agent can stay idle')
@@ -42,7 +42,7 @@ DEBUG_LOGGING_MAP = {
               count=True, default=2)
 #Debug mode will explicitly surface erros
 @click.option("--debug", is_flag=True) 
-def main(sleep, kubeconfig, scale_out_webhook, scale_in_webhook, spare_agents, idle_threshold,
+def main(sleep, kubeconfig, scale_out_webhook, scale_in_webhook, spare_agents, pool_name_regex, idle_threshold,
          drain, no_scale, over_provision, no_maintenance, ignore_pools, slack_hook,
          verbose, debug):
     logger_handler = logging.StreamHandler(sys.stderr)
@@ -57,6 +57,7 @@ def main(sleep, kubeconfig, scale_out_webhook, scale_in_webhook, spare_agents, i
     cluster = Cluster(kubeconfig=kubeconfig,
                       scale_out_webhook=scale_out_webhook,
                       scale_in_webhook=scale_in_webhook,
+                      pool_name_regex=pool_name_regex,
                       spare_agents=spare_agents,
                       idle_threshold=idle_threshold,
                       drain=drain,
@@ -64,8 +65,7 @@ def main(sleep, kubeconfig, scale_out_webhook, scale_in_webhook, spare_agents, i
                       ignore_pools=ignore_pools,
                       maintainance=not no_maintenance,
                       over_provision=over_provision,
-                      notifier=notifier
-                      )
+                      notifier=notifier)
     cluster.login()
     backoff = sleep
     while True:
