@@ -35,9 +35,9 @@ class WebHookScaler(Scaler):
         for node in nodes:
             # Will need to be modified to pass the regex
             pool_name = utils.get_pool_name(node, self.pool_name_regex)
-            pool = pools.setdefault(pool_name, {'size': 0, 'nodes': []})
+            pool = pools.setdefault(pool_name, {'size': "", 'nodes': []})
             pool['nodes'].append(node)
-            pool['size'] += 1
+            pool['size'] = node.selectors["beta.kubernetes.io/instance-type"]
 
         agent_pools = []
         scalable_pools = []
