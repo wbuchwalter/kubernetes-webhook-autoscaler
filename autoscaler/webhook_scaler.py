@@ -1,8 +1,14 @@
 import requests
-from autoscaler.scaler import Scaler, ClusterNodeState
-from autoscaler.agent_pool import AgentPool
-import autoscaler.utils as utils
+import time
+import os
+import logging
+import json
+import uuid
+from copy import deepcopy
 
+import autoscaler.utils as utils
+from autoscaler.agent_pool import AgentPool
+from autoscaler.scaler import Scaler, ClusterNodeState
 class WebHookScaler(Scaler):
 
     def __init__(self, scale_out_webhook, scale_in_webhook, drain, pool_name_regex, nodes,
