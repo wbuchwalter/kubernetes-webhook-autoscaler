@@ -1,15 +1,10 @@
 # logger
 
-This is a simple example who will listen from the autoscaler and repeat the payload
+This is a simple example, this application will listen from the autoscaler and repeat the payload
 
 There are two endpoints :
 * http://localhost/in
 * http://localhost/out
-
-### Running locally (default is port 5000)
-```bash
-$ make build-run
-```
 
 ### Example Output
 
@@ -24,4 +19,17 @@ Scale Out Endpoint hit :
 172.17.0.3 - - [11/Jan/2018 20:19:51] "POST /in HTTP/1.1" 200 -
 Scale In Endpoint hit :
 [{'name': 'worker', 'current_agent_count': 6, 'desired_agent_count': 2, 'target_nodes': ['ju-cluster-worker-0', 'ju-cluster-worker-1', 'ju-cluster-worker-4', 'ju-cluster-worker-5']}]
+```
+
+### Deploying in a cluster using Helm
+
+**You first need to deploy the main autoscaler part*
+
+```bash
+helm install ./k8s-webhook-autoscaler-logger/. --name k8s-webhook-autoscaler-logger
+```
+
+### Running it locally (default is port 5000)
+```bash
+$ make build-run
 ```

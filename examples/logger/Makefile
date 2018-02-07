@@ -17,11 +17,11 @@ debug:
 	/bin/bash
 
 run:
-	docker run --rm \
+	docker run --rm --name $(PROJECTNAME) \
 	-it -p 5000:5000 \
 	-v $(PWD):/app \
 	$(WHOAMI)/$(PROJECTNAME):dev \
 	flask run --host=0.0.0.0
 
 build-debug: build debug
-build-run: build debug
+build-run: build run
