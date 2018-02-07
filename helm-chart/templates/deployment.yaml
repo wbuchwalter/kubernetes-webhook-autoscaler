@@ -1,4 +1,4 @@
-{{- if and .Values.acsenginecluster.resourcegroup .Values.acsenginecluster.azurespappid .Values.acsenginecluster.azurespsecret .Values.acsenginecluster.azuresptenantid .Values.acsenginecluster.kubeconfigprivatekey .Values.acsenginecluster.clientprivatekey -}}
+{{- if and .Values.options.scaleoutwebhook .Values.options.scaleinwebhook .Values.options.poolnameregex -}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -16,68 +16,41 @@ spec:
       containers:
       - name: {{ template "fullname" . }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        env:
-        - name: AZURE_SP_APP_ID
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "fullname" . }}
-              key: azure-sp-app-id
-        - name: AZURE_SP_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "fullname" . }}
-              key: azure-sp-secret
-        - name: AZURE_SP_TENANT_ID
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "fullname" . }}
-              key: azure-sp-tenant-id
-        - name: KUBECONFIG_PRIVATE_KEY
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "fullname" . }}
-              key: kubeconfig-private-key
-        - name: CLIENT_PRIVATE_KEY
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "fullname" . }}
-              key: client-private-key
-        - name: CA_PRIVATE_KEY
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "fullname" . }}
-              key: ca-private-key
         command:
             - python
             - main.py
-            - --resource-group
-            - {{ .Values.acsenginecluster.resourcegroup }}
-            {{- if .Values.acsenginecluster.acsdeployment }}
-            - --acs-deployment
-            - {{ .Values.acsenginecluster.acsdeployment }}
+            - --scale-out-webhook
+            - {{ .Values.options.scaleoutwebhook }}
+            - --scale-in-webhook
+            - {{ .Values.options.scaleinwebhook }}
+            - --pool-name-regex
+            - {{ .Values.options.poolnameregex }}
+            {{- if .Values.options.drain }}
+            - --drain
+            - {{ .Values.options.drain }}
             {{- end }}
-            {{- if .Values.acsenginecluster.sleeptime }}
+            {{- if .Values.options.sleeptime }}
             - --sleep
-            - {{ .Values.acsenginecluster.sleeptime | quote }}
+            - {{ .Values.options.sleeptime | quote }}
             {{- end }}
-            {{- if .Values.acsenginecluster.ignorepools }}
+            {{- if .Values.options.ignorepools }}
             - --ignore-pools 
-            - {{ .Values.acsenginecluster.ignorepools }}
+            - {{ .Values.options.ignorepools }}
             {{- end }}
-            {{- if .Values.acsenginecluster.spareagents }}
+            {{- if .Values.options.spareagents }}
             - --spare-agents 
-            - {{ .Values.acsenginecluster.spareagents | quote }}
+            - {{ .Values.options.spareagents | quote }}
             {{- end }}
-            {{- if .Values.acsenginecluster.idlethreshold }}
+            {{- if .Values.options.idlethreshold }}
             - --idle-threshold 
-            - {{ .Values.acsenginecluster.idlethreshold | quote }}
+            - {{ .Values.options.idlethreshold | quote }}
             {{- end }}
-            {{- if .Values.acsenginecluster.overprovision }}
+            {{- if .Values.options.overprovision }}
             - --over-provision 
-            - {{ .Values.acsenginecluster.overprovision | quote }}
+            - {{ .Values.options.overprovision | quote }}
             {{- end }}
             - -vvv
         imagePullPolicy: {{ .Values.image.pullPolicy }}
       restartPolicy: Always
       dnsPolicy: Default
-{{ end }}
+{{- end }}

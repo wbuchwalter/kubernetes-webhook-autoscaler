@@ -5,19 +5,14 @@ replicaCount: 1
 ## Image for kubernetes-acs-engine-autoscaler
 ## Will update the image and tag later
 image:
-  repository: wbuchwalter/kubernetes-acs-engine-autoscaler
+  repository: wbuchwalter/kubernetes-webhook-autoscaler
   tag: 2.1.1
   pullPolicy: IfNotPresent
-acsenginecluster:
-  resourcegroup:
-  azurespappid:
-  azurespsecret:
-  azuresptenantid:
-  kubeconfigprivatekey:
-  clientprivatekey:
-  caprivatekey:
-  ## Optional parameter for deployment name if not using default
-  #acsdeployment:
+options:
+  scaleoutwebhook:
+  scaleinwebhook:
+  poolnameregex:
+  drain:
   ## Optional parameter for sleep time between scaling loops (default: 60)
   #sleeptime:
   ## Optional parameter for pools to ignore scaling on
