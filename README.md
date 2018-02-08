@@ -8,11 +8,12 @@ This works in two pieces :
 
 ## Full List of Options
 
-```
+```bash
 $ python main.py [options]
 ```
+
 | Option | Description | Default |
-|---|---|---|---|
+|---|---|---|
 | `--kubeconfig` | Path to kubeconfig YAML file. Leave blank if running in Kubernetes to use [service account](http://kubernetes.io/docs/user-guide/service-accounts/) | |
 | `--scale-out-webhook` | URI to be called when a scaling out need is detected by the autoscaler | |
 | `--scale-in-webhook` | URI to be called when a scaling in need is detected by the autoscaler | |
