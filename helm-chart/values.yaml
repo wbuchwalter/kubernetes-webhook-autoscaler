@@ -5,8 +5,8 @@ replicaCount: 1
 ## Image for kubernetes-acs-engine-autoscaler
 ## Will update the image and tag later
 image:
-  repository: wbuchwalter/kubernetes-webhook-autoscaler
-  tag: 2.1.1
+  repository: julienstroheker/kubernetes-webhook-autoscaler
+  tag: latest
   pullPolicy: IfNotPresent
 options:
   scaleoutwebhook:

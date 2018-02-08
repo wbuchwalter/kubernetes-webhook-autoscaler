@@ -50,6 +50,7 @@ spec:
             - {{ .Values.options.overprovision | quote }}
             {{- end }}
             - -vvv
+            - --debug
         imagePullPolicy: {{ .Values.image.pullPolicy }}
       restartPolicy: Always
       dnsPolicy: Default
