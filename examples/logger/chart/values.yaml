@@ -1,0 +1,10 @@
+replicaCount: 1
+image:
+  repository: julienstroheker/kubernetes-webhook-autoscaler-logger
+  tag: latest
+  pullPolicy: Always
+service:
+  name: webhook-logger
+  type: ClusterIP
+  externalPort: 5000
+  internalPort: 5000
