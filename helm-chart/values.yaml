@@ -2,13 +2,16 @@ image:
   repository: wbuchwalter/kubernetes-webhook-autoscaler
   tag: latest
   pullPolicy: IfNotPresent
+rbac:
+  install: false
+  apiVersion: v1beta1
 options:
   scaleoutwebhook: 
   scaleinwebhook: 
   poolnameregex: 
   drain: false
   ## Optional parameter for sleep time between scaling loops (default: 60)
-  sleeptime: 10
+  #sleeptime: 10
   ## Optional parameter for pools to ignore scaling on
   #ignorepools:
   ## Optional parameter denominating number of nodes to spare in a pool after scaling
