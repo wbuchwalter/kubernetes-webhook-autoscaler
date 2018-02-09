@@ -1,0 +1,31 @@
+{{ if .Values.rbac.install }}
+apiVersion: rbac.authorization.k8s.io/{{ required "A valid .Values.rbac.apiVersion entry required!" .Values.rbac.apiVersion }}
+kind: ClusterRole
+metadata:
+  name: webhook-autoscaler
+  labels:
+    app: webhook-autoscaler
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - nodes
+  verbs:
+  - "*"
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/{{ required "A valid .Values.rbac.apiVersion entry required!" .Values.rbac.apiVersion }}
+metadata:
+  name: webhook-autoscaler
+  labels:
+    app: webhook-autoscaler
+subjects:
+- kind: ServiceAccount
+  name: webhook-autoscaler
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: webhook-autoscaler
+{{ end }}
