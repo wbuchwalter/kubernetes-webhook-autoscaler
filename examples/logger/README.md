@@ -26,7 +26,7 @@ Scale In Endpoint hit :
 **You first need to deploy the main autoscaler part*
 
 ```bash
-helm install ./k8s-webhook-autoscaler-logger/. --name k8s-webhook-autoscaler-logger
+helm install ./chart/. --name k8s-wh-as-logger
 ```
 
 ### Running it locally (default is port 5000)
