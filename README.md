@@ -30,8 +30,8 @@ $ python main.py [options]
 ### Deploy it in a K8s cluster using Helm
 
 ```bash
-helm install ./helm-chart/. --name k8s-wh-as \
-    --set options.scaleoutwebhook=<SCALE-OUT-URL>,options.scaleinwebhook=<SCALE-OUT-URL>,options.poolnameregex=<REGEX-NODES-TO-WATCH> stable/kubernetes-webhook-autoscaler
+helm install ./helm-chart --name k8s-wh-as \
+    --set options.scaleoutwebhook=<SCALE-OUT-URL>,options.scaleinwebhook=<SCALE-OUT-URL>,options.poolnameregex=<REGEX-NODES-TO-WATCH>
 ```
 
 ### Running locally
