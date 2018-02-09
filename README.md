@@ -27,6 +27,33 @@ $ python main.py [options]
 | `--idle-threshold` | Maximum duration (in seconds) an agent can stay idle before being deleted | |
 | `--over-provision` | Number of extra agents to create when scaling up | 0 |
 
+### Payload
+
+#### Scale In
+
+```javascript
+[
+    {
+        name: "pool1",
+        target_nodes: ["node1", "node2"],
+        current_agent_count: 5,
+        desired_agent_count: 3
+    }
+]
+```
+
+#### Scale Out
+
+```javascript
+[
+    {
+        name: "pool1",
+        current_agent_count: 3,
+        desired_agent_count: 5
+    }
+]
+```
+
 ### Deploy it in a K8s cluster using Helm
 
 ```bash
