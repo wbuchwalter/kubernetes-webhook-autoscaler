@@ -17,7 +17,7 @@ $ python main.py [options]
 | `--kubeconfig` | Path to kubeconfig YAML file. Leave blank if running in Kubernetes to use [service account](http://kubernetes.io/docs/user-guide/service-accounts/) | |
 | `--scale-out-webhook` | URI to be called when a scaling out need is detected by the autoscaler | |
 | `--scale-in-webhook` | URI to be called when a scaling in need is detected by the autoscaler | |
-| `--pool-name-regex` | Regex used to identify agents in the pool(s), the regex should not match masters | agent |
+| `--pool-name-regex` | Regex used to identify agents in the pool(s), the regex should not match masters.  kubectl get nodes to find your worker node names | agent |
 | `--drain` | Wether the autoscaler should drain and cordon nodes before passing them to the scale-in webhook | |
 | `--sleep` | Time (in seconds) to sleep between scaling loops | 60|
 | `-v` | Sets the verbosity. Specify multiple times for more log output, e.g. `-vvv` | |
@@ -30,8 +30,8 @@ $ python main.py [options]
 ### Deploy it in a K8s cluster using Helm
 
 ```bash
-helm install ./helm-chart/. --name k8s-wh-as \
-    --set options.scaleoutwebhook=<SCALE-OUT-URL>,options.scaleinwebhook=<SCALE-OUT-URL>,options.poolnameregex=<REGEX-NODES-TO-WATCH> stable/kubernetes-webhook-autoscaler
+helm install helm-chart --name k8s-wh-as \
+    --set options.scaleoutwebhook=<SCALE-OUT-URL>,options.scaleinwebhook=<SCALE-IN-URL>,options.poolnameregex=<REGEX-NODES-TO-WATCH>
 ```
 
 ### Running locally
