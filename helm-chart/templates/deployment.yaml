@@ -53,5 +53,4 @@ spec:
             - --debug
         imagePullPolicy: {{ .Values.image.pullPolicy }}
       restartPolicy: Always
-      dnsPolicy: Default
 {{- end }}

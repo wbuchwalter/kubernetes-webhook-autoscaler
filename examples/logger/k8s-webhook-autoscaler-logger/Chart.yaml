@@ -1,4 +1,0 @@
-apiVersion: v1
-description: Kubernetes Webhook Autoscaler Logger
-name: k8s-wh-as-logger
-version: 0.1.0
